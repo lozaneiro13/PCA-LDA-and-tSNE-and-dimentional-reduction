@@ -1,0 +1,110 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "id": "_cHRAXsRzMyR"
+      },
+      "outputs": [],
+      "source": [
+        "import pandas as pd\n",
+        "from sklearn.model_selection import train_test_split"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#load datasets\n",
+        "\n",
+        "store_data = pd.read_csv(\"store.csv\")\n",
+        "retail_orders_data = pd.read_csv(\"retail_orders.csv\")\n",
+        "retail_data = pd.read_csv(\"retail_data.csv\")"
+      ],
+      "metadata": {
+        "id": "cYNgffyuzp1E"
+      },
+      "execution_count": 2,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Merge the retail data with store data\n",
+        "merged_data = pd.merge(retail_data, store_data, on=\"Store\", how=\"left\")"
+      ],
+      "metadata": {
+        "id": "dsfaBlPF0b96"
+      },
+      "execution_count": 3,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Select relevant features for regression\n",
+        "features = [\"StoreType\", \"Assortment\", \"CompetitionDistance\", \"Promo\", \"SchoolHoliday\"]\n",
+        "target = \"Customers\""
+      ],
+      "metadata": {
+        "id": "Q7w9jfzz0r5_"
+      },
+      "execution_count": 7,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Split the data into train and test sets\n",
+        "X = merged_data[features]\n",
+        "y = merged_data[target]\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)"
+      ],
+      "metadata": {
+        "id": "7udgsBNL0wCp"
+      },
+      "execution_count": 8,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Print the shapes of train and test sets\n",
+        "print(f\"Train set shape: X_train={X_train.shape}, y_train={y_train.shape}\")\n",
+        "print(f\"Test set shape: X_test={X_test.shape}, y_test={y_test.shape}\")\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Rb_2DznX1_16",
+        "outputId": "7a1649ab-1335-40a7-c526-2e3dce14cd25"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Train set shape: X_train=(520810, 5), y_train=(520810,)\n",
+            "Test set shape: X_test=(130203, 5), y_test=(130203,)\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
